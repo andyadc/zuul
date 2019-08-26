@@ -4,8 +4,6 @@ import javax.servlet.ServletInputStream;
 
 /**
  * ServletInputStream wrapper to wrap a byte[] into a ServletInputStream
- *
- * @author mhawthorne
  */
 public class ServletInputStreamWrapper extends ServletInputStream {
 

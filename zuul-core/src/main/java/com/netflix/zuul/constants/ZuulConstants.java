@@ -2,8 +2,6 @@ package com.netflix.zuul.constants;
 
 /**
  * property constants
- * Date: 5/15/13
- * Time: 2:22 PM
  */
 public class ZuulConstants {
     public static final String ZUUL_CASSANDRA_ENABLED = "zuul.cassandra.enabled";

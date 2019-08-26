@@ -22,10 +22,10 @@ public class FilterLoader {
 
     private static final Logger LOG = LoggerFactory.getLogger(FilterLoader.class);
 
-    private final ConcurrentHashMap<String, Long> filterClassLastModified = new ConcurrentHashMap<String, Long>();
-    private final ConcurrentHashMap<String, String> filterClassCode = new ConcurrentHashMap<String, String>();
-    private final ConcurrentHashMap<String, String> filterCheck = new ConcurrentHashMap<String, String>();
-    private final ConcurrentHashMap<String, List<ZuulFilter>> hashFiltersByType = new ConcurrentHashMap<String, List<ZuulFilter>>();
+	private final ConcurrentHashMap<String, Long> filterClassLastModified = new ConcurrentHashMap<>();
+	private final ConcurrentHashMap<String, String> filterClassCode = new ConcurrentHashMap<>();
+	private final ConcurrentHashMap<String, String> filterCheck = new ConcurrentHashMap<>();
+	private final ConcurrentHashMap<String, List<ZuulFilter>> hashFiltersByType = new ConcurrentHashMap<>();
 
     private FilterRegistry filterRegistry = FilterRegistry.instance();
 
@@ -84,7 +84,7 @@ public class FilterLoader {
         if (filter == null) {
             Class clazz = COMPILER.compile(sCode, sName);
             if (!Modifier.isAbstract(clazz.getModifiers())) {
-                filter = (ZuulFilter) FILTER_FACTORY.newInstance(clazz);
+				filter = FILTER_FACTORY.newInstance(clazz);
             }
         }
         return filter;
@@ -114,7 +114,7 @@ public class FilterLoader {
         if (filter == null) {
             Class clazz = COMPILER.compile(file);
             if (!Modifier.isAbstract(clazz.getModifiers())) {
-                filter = (ZuulFilter) FILTER_FACTORY.newInstance(clazz);
+				filter = FILTER_FACTORY.newInstance(clazz);
                 List<ZuulFilter> list = hashFiltersByType.get(filter.filterType());
                 if (list != null) {
                     hashFiltersByType.remove(filter.filterType()); //rebuild this list

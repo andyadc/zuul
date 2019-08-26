@@ -4,9 +4,6 @@ import com.netflix.zuul.monitoring.CounterFactory;
 
 /**
  * All handled exceptions in Zuul are ZuulExceptions
- * @author Mikey Cohen
- * Date: 10/20/11
- * Time: 4:33 PM
  */
 public class ZuulException extends Exception {
     public int nStatusCode;
@@ -54,7 +51,7 @@ public class ZuulException extends Exception {
 
     }
 
-    private static final void incrementCounter(String name) {
+	private static void incrementCounter(String name) {
         CounterFactory.instance().increment(name);
     }
 

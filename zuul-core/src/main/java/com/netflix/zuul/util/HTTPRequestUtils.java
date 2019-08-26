@@ -34,7 +34,7 @@ public class HTTPRequestUtils {
      */
     public String getClientIP(HttpServletRequest request) {
         final String xForwardedFor = request.getHeader(X_FORWARDED_FOR_HEADER);
-        String clientIP = null;
+		String clientIP;
         if (xForwardedFor == null) {
             clientIP = request.getRemoteAddr();
         } else {
@@ -54,7 +54,7 @@ public class HTTPRequestUtils {
             return null;
         }
         xForwardedFor = xForwardedFor.trim();
-        String tokenized[] = xForwardedFor.split(",");
+		String[] tokenized = xForwardedFor.split(",");
         if (tokenized.length == 0) {
             return null;
         } else {
@@ -96,7 +96,7 @@ public class HTTPRequestUtils {
      */
     public Map<String, List<String>> getRequestHeaderMap() {
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
-        Map<String, List<String>> headers = new HashMap<String, List<String>>();
+		Map<String, List<String>> headers = new HashMap<>();
         Enumeration<String> headerNames = request.getHeaderNames();
         if (headerNames != null) {
             while (headerNames.hasMoreElements()) {
@@ -104,7 +104,7 @@ public class HTTPRequestUtils {
                 String value = request.getHeader(name);
 
                 if (name != null && !name.isEmpty() && value != null) {
-                    List<String> valueList = new ArrayList<String>();
+					List<String> valueList = new ArrayList<>();
                     if (headers.containsKey(name)) {
                         headers.get(name).add(value);
                     }
@@ -127,7 +127,7 @@ public class HTTPRequestUtils {
 
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
 
-        qp = new LinkedHashMap<String, List<String>>();
+		qp = new LinkedHashMap<>();
 
         if (request.getQueryString() == null) return null;
         StringTokenizer st = new StringTokenizer(request.getQueryString(), "&");
@@ -151,7 +151,7 @@ public class HTTPRequestUtils {
 
                 List<String> valueList = qp.get(name);
                 if (valueList == null) {
-                    valueList = new LinkedList<String>();
+					valueList = new LinkedList<>();
                     qp.put(name, valueList);
                 }
 
@@ -166,7 +166,7 @@ public class HTTPRequestUtils {
 
                 List<String> valueList = qp.get(name);
                 if (valueList == null) {
-                    valueList = new LinkedList<String>();
+					valueList = new LinkedList<>();
                     qp.put(name, valueList);
                 }
 

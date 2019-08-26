@@ -5,18 +5,15 @@ import com.netflix.zuul.ZuulFilter;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * @author mhawthorne
- */
 public class FilterRegistry {
 
     private static final FilterRegistry INSTANCE = new FilterRegistry();
 
-    public static final FilterRegistry instance() {
+	private final ConcurrentHashMap<String, ZuulFilter> filters = new ConcurrentHashMap<>();
+
+	public static FilterRegistry instance() {
         return INSTANCE;
     }
-
-    private final ConcurrentHashMap<String, ZuulFilter> filters = new ConcurrentHashMap<String, ZuulFilter>();
 
     private FilterRegistry() {
     }

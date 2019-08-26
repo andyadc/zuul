@@ -24,6 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * extensions of RequestContext can be substituted by setting the contextClass.
  * Most methods here are convenience wrapper methods; the RequestContext is an extension of a ConcurrentHashMap
  */
+@SuppressWarnings({"unchecked"})
 public class RequestContext extends ConcurrentHashMap<String, Object> {
 
     private static final Logger LOG = LoggerFactory.getLogger(RequestContext.class);
@@ -319,7 +320,7 @@ public class RequestContext extends ConcurrentHashMap<String, Object> {
     public int getResponseStatusCode() {
         return get("responseStatusCode") != null ? (Integer) get("responseStatusCode") : 500;
     }
-    
+
     /**
      * Use this instead of response.setStatusCode()
      */
@@ -342,7 +343,7 @@ public class RequestContext extends ConcurrentHashMap<String, Object> {
      */
     public Map<String, String> getZuulRequestHeaders() {
         if (get("zuulRequestHeaders") == null) {
-            HashMap<String, String> zuulRequestHeaders = new HashMap<String, String>();
+			HashMap<String, String> zuulRequestHeaders = new HashMap<>();
             putIfAbsent("zuulRequestHeaders", zuulRequestHeaders);
         }
         return (Map<String, String>) get("zuulRequestHeaders");
@@ -352,7 +353,7 @@ public class RequestContext extends ConcurrentHashMap<String, Object> {
      * add a header to be sent to the response
      */
     public void addZuulResponseHeader(String name, String value) {
-        getZuulResponseHeaders().add(new Pair<String, String>(name, value));
+		getZuulResponseHeaders().add(new Pair<>(name, value));
     }
 
     /**
@@ -362,7 +363,7 @@ public class RequestContext extends ConcurrentHashMap<String, Object> {
      */
     public List<Pair<String, String>> getZuulResponseHeaders() {
         if (get("zuulResponseHeaders") == null) {
-            List<Pair<String, String>> zuulRequestHeaders = new ArrayList<Pair<String, String>>();
+			List<Pair<String, String>> zuulRequestHeaders = new ArrayList<>();
             putIfAbsent("zuulResponseHeaders", zuulRequestHeaders);
         }
         return (List<Pair<String, String>>) get("zuulResponseHeaders");
@@ -375,7 +376,7 @@ public class RequestContext extends ConcurrentHashMap<String, Object> {
      */
     public List<Pair<String, String>> getOriginResponseHeaders() {
         if (get("originResponseHeaders") == null) {
-            List<Pair<String, String>> originResponseHeaders = new ArrayList<Pair<String, String>>();
+			List<Pair<String, String>> originResponseHeaders = new ArrayList<>();
             putIfAbsent("originResponseHeaders", originResponseHeaders);
         }
         return (List<Pair<String, String>>) get("originResponseHeaders");
@@ -388,7 +389,7 @@ public class RequestContext extends ConcurrentHashMap<String, Object> {
      * @param value
      */
     public void addOriginResponseHeader(String name, String value) {
-        getOriginResponseHeaders().add(new Pair<String, String>(name, value));
+		getOriginResponseHeaders().add(new Pair<>(name, value));
     }
 
     /**

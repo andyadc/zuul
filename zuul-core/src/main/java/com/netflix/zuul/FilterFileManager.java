@@ -38,7 +38,7 @@ public class FilterFileManager {
      * @param pollingIntervalSeconds the polling interval in Seconds
      * @param directories            Any number of paths to directories to be polled may be specified
      */
-    public static void init(int pollingIntervalSeconds, String... directories) throws Exception, IllegalAccessException, InstantiationException {
+	public static void init(int pollingIntervalSeconds, String... directories) throws Exception {
         if (INSTANCE == null) INSTANCE = new FilterFileManager();
 
         INSTANCE.aDirectories = directories;
@@ -123,7 +123,7 @@ public class FilterFileManager {
      *
      * @param aFiles a List<File>
      */
-    void processGroovyFiles(List<File> aFiles) throws Exception, InstantiationException, IllegalAccessException {
+	void processGroovyFiles(List<File> aFiles) throws Exception {
         for (File file : aFiles) {
             FilterLoader.getInstance().putFilter(file);
         }

@@ -19,10 +19,6 @@ import java.io.IOException;
  * then routing filters, then post routing filters. Handled exceptions in pre-routing and routing
  * call the error filters, then call post-routing filters. Errors in post-routing only invoke the error filters.
  * Unhandled exceptions only invoke the error filters
- *
- * @author Mikey Cohen
- * Date: 10/12/11
- * Time: 2:54 PM
  */
 public class ZuulServletFilter implements Filter {
 
@@ -31,7 +27,7 @@ public class ZuulServletFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) {
         String bufferReqsStr = filterConfig.getInitParameter("buffer-requests");
-        boolean bufferReqs = bufferReqsStr != null && bufferReqsStr.equals("true") ? true : false;
+		boolean bufferReqs = bufferReqsStr != null && bufferReqsStr.equals("true");
 
         zuulRunner = new ZuulRunner(bufferReqs);
     }
@@ -98,5 +94,5 @@ public class ZuulServletFilter implements Filter {
     @Override
     public void destroy() {
     }
-    
+
 }

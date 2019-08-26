@@ -2,9 +2,6 @@ package com.netflix.zuul.constants;
 
 /**
  * HTTP Headers that are accessed or added by Zuul
- * User: mcohen
- * Date: 5/15/13
- * Time: 4:38 PM
  */
 public class ZuulHeaders {
     public static final String TRANSFER_ENCODING = "transfer-encoding";
