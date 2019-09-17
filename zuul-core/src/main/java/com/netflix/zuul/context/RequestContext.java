@@ -343,7 +343,7 @@ public class RequestContext extends ConcurrentHashMap<String, Object> {
      */
     public Map<String, String> getZuulRequestHeaders() {
         if (get("zuulRequestHeaders") == null) {
-			HashMap<String, String> zuulRequestHeaders = new HashMap<>();
+			Map<String, String> zuulRequestHeaders = new HashMap<>();
             putIfAbsent("zuulRequestHeaders", zuulRequestHeaders);
         }
         return (Map<String, String>) get("zuulRequestHeaders");
@@ -456,8 +456,6 @@ public class RequestContext extends ConcurrentHashMap<String, Object> {
 
     /**
      * Mkaes a copy of the RequestContext. This is used for debugging.
-     *
-     * @return
      */
     public RequestContext copy() {
         RequestContext copy = new RequestContext();
