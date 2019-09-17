@@ -171,7 +171,6 @@ public class HTTPRequestUtils {
                 }
 
                 valueList.add(value);
-
             }
         }
 
@@ -181,9 +180,6 @@ public class HTTPRequestUtils {
 
     /**
      * Checks headers, query string, and form body for a given parameter
-     *
-     * @param sName
-     * @return
      */
     public String getValueFromRequestElements(String sName) {
         String sValue = null;

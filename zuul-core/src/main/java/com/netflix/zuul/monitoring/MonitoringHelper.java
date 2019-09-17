@@ -6,7 +6,7 @@ package com.netflix.zuul.monitoring;
  */
 public class MonitoringHelper {
 
-    public static final void initMocks() {
+	public static void initMocks() {
         CounterFactory.initialize(new CounterFactoryImpl());
         TracerFactory.initialize(new TracerFactoryImpl());
     }

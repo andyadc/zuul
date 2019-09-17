@@ -71,7 +71,7 @@ public class Debug {
 	public static List<String> getRequestDebug() {
 		List<String> rd = (List<String>) RequestContext.getCurrentContext().get("requestDebug");
 		if (rd == null) {
-			rd = new ArrayList<String>();
+			rd = new ArrayList<>();
 			RequestContext.getCurrentContext().set("requestDebug", rd);
 		}
 		return rd;

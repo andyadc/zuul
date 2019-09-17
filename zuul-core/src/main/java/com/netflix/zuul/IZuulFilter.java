@@ -3,11 +3,11 @@ package com.netflix.zuul;
 import com.netflix.zuul.exception.ZuulException;
 
 /**
- * BAse interface for ZuulFilters
+ * Base interface for ZuulFilters
  */
 public interface IZuulFilter {
-    
-    /**
+
+	/**
      * a "true" return from this method means that the run() method should be invoked
      *
      * @return true if the run() method should be invoked. false will not invoke the run() method

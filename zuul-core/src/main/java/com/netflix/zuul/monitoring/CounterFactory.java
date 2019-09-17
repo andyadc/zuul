@@ -14,7 +14,7 @@ public abstract class CounterFactory {
      *
      * @param f a <code>CounterFactory</code> value
      */
-    public static final void initialize(CounterFactory f) {
+	public static void initialize(CounterFactory f) {
         INSTANCE = f;
     }
 
@@ -23,7 +23,7 @@ public abstract class CounterFactory {
      *
      * @return a <code>CounterFactory</code> value
      */
-    public static final CounterFactory instance() {
+	public static CounterFactory instance() {
         if(INSTANCE == null) throw new IllegalStateException(String.format("%s not initialized", CounterFactory.class.getSimpleName()));
         return INSTANCE;
     }

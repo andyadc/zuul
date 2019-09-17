@@ -23,7 +23,7 @@ public class FilterFileManager {
 	private String[] aDirectories;
 	private int pollingIntervalSeconds;
 	private Thread poller;
-	private boolean bRunning = true;
+	private volatile boolean bRunning = true;
 
 	private FilterFileManager() {
 	}

@@ -18,13 +18,13 @@ public class ZuulServlet extends HttpServlet {
 
     private static final long serialVersionUID = -3374242278843351500L;
     private ZuulRunner zuulRunner;
-    
+
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
 
         String bufferReqsStr = config.getInitParameter("buffer-requests");
-        boolean bufferReqs = bufferReqsStr != null && bufferReqsStr.equals("true") ? true : false;
+		boolean bufferReqs = bufferReqsStr != null && bufferReqsStr.equals("true");
 
         zuulRunner = new ZuulRunner(bufferReqs);
     }
@@ -46,16 +46,16 @@ public class ZuulServlet extends HttpServlet {
                 postRoute();
                 return;
             }
-            
-            try {
+
+			try {
                 route();
             } catch (ZuulException e) {
                 error(e);
                 postRoute();
                 return;
             }
-            
-            try {
+
+			try {
                 postRoute();
             } catch (ZuulException e) {
                 error(e);
