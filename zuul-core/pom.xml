@@ -3,13 +3,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>zuul</artifactId>
-        <groupId>com.netflix.zuul</groupId>
+		<groupId>com.andyadc.zuul</groupId>
         <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>zuul-core</artifactId>
     <name>zuul-core</name>
     <version>1.0.0</version>
+	<packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -38,8 +39,9 @@
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
-            <version>2.5.8</version>
-        </dependency>
+			<version>2.5.8</version>
+			<type>pom</type>
+		</dependency>
     </dependencies>
 
 </project>

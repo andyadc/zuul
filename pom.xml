@@ -4,13 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.netflix.zuul</groupId>
+	<groupId>com.andyadc.zuul</groupId>
     <artifactId>zuul</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0</version>
 
     <modules>
         <module>zuul-core</module>
-    </modules>
+		<module>zuul-server</module>
+	</modules>
 
 </project>
