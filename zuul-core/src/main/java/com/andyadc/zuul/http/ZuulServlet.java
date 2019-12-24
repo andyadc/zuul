@@ -76,35 +76,35 @@ public class ZuulServlet extends HttpServlet {
 	/**
 	 * executes "post" ZuulFilters
 	 */
-	void postRoute() throws ZuulException {
+	private void postRoute() throws ZuulException {
 		zuulRunner.postRoute();
 	}
 
 	/**
 	 * executes "route" filters
 	 */
-	void route() throws ZuulException {
+	private void route() throws ZuulException {
 		zuulRunner.route();
 	}
 
 	/**
 	 * executes "pre" filters
 	 */
-	void preRoute() throws ZuulException {
+	private void preRoute() throws ZuulException {
 		zuulRunner.preRoute();
 	}
 
 	/**
 	 * initializes request
 	 */
-	void init(HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
+	private void init(HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
 		zuulRunner.init(servletRequest, servletResponse);
 	}
 
 	/**
 	 * sets error context info and executes "error" filters
 	 */
-	void error(ZuulException e) {
+	private void error(ZuulException e) {
 		RequestContext.getCurrentContext().setThrowable(e);
 		zuulRunner.error();
 	}

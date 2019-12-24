@@ -19,190 +19,191 @@ import java.util.StringTokenizer;
  */
 public class HTTPRequestUtils {
 
-    private final static HTTPRequestUtils INSTANCE = new HTTPRequestUtils();
+	private final static HTTPRequestUtils INSTANCE = new HTTPRequestUtils();
 
-    public static final String X_FORWARDED_FOR_HEADER = "x-forwarded-for";
+	private static final String X_FORWARDED_FOR_HEADER = "x-forwarded-for";
 
-    /**
-     * Get the IP address of client making the request.
-     * <p>
-     * Uses the "x-forwarded-for" HTTP header if available, otherwise uses the remote
-     * IP of requester.
-     *
-     * @param request <code>HttpServletRequest</code>
-     * @return <code>String</code> IP address
-     */
-    public String getClientIP(HttpServletRequest request) {
-        final String xForwardedFor = request.getHeader(X_FORWARDED_FOR_HEADER);
+	/**
+	 * return singleton HTTPRequestUtils object
+	 *
+	 * @return a <code>HTTPRequestUtils</code> value
+	 */
+	public static HTTPRequestUtils getInstance() {
+		return INSTANCE;
+	}
+
+	/**
+	 * Get the IP address of client making the request.
+	 * <p>
+	 * Uses the "x-forwarded-for" HTTP header if available, otherwise uses the remote
+	 * IP of requester.
+	 *
+	 * @param request <code>HttpServletRequest</code>
+	 * @return <code>String</code> IP address
+	 */
+	public String getClientIP(HttpServletRequest request) {
+		final String xForwardedFor = request.getHeader(X_FORWARDED_FOR_HEADER);
 		String clientIP;
-        if (xForwardedFor == null) {
-            clientIP = request.getRemoteAddr();
-        } else {
-            clientIP = extractClientIpFromXForwardedFor(xForwardedFor);
-        }
-        return clientIP;
-    }
+		if (xForwardedFor == null) {
+			clientIP = request.getRemoteAddr();
+		} else {
+			clientIP = extractClientIpFromXForwardedFor(xForwardedFor);
+		}
+		return clientIP;
+	}
 
-    /**
-     * Extract the client IP address from an x-forwarded-for header. Returns null if there is no x-forwarded-for header
-     *
-     * @param xForwardedFor a <code>String</code> value
-     * @return a <code>String</code> value
-     */
-    public final String extractClientIpFromXForwardedFor(String xForwardedFor) {
-        if (xForwardedFor == null) {
-            return null;
-        }
-        xForwardedFor = xForwardedFor.trim();
+	/**
+	 * Extract the client IP address from an x-forwarded-for header. Returns null if there is no x-forwarded-for header
+	 *
+	 * @param xForwardedFor a <code>String</code> value
+	 * @return a <code>String</code> value
+	 */
+	public final String extractClientIpFromXForwardedFor(String xForwardedFor) {
+		if (xForwardedFor == null) {
+			return null;
+		}
+		xForwardedFor = xForwardedFor.trim();
 		String[] tokenized = xForwardedFor.split(",");
-        if (tokenized.length == 0) {
-            return null;
-        } else {
-            return tokenized[0].trim();
-        }
-    }
+		if (tokenized.length == 0) {
+			return null;
+		} else {
+			return tokenized[0].trim();
+		}
+	}
 
-    /**
-     * return singleton HTTPRequestUtils object
-     *
-     * @return a <code>HTTPRequestUtils</code> value
-     */
-    public static HTTPRequestUtils getInstance() {
-        return INSTANCE;
-    }
+	/**
+	 * returns the Header value for the given sHeaderName
+	 *
+	 * @param sHeaderName a <code>String</code> value
+	 * @return a <code>String</code> value
+	 */
+	public String getHeaderValue(String sHeaderName) {
+		return RequestContext.getCurrentContext().getRequest().getHeader(sHeaderName);
+	}
 
-    /**
-     * returns the Header value for the given sHeaderName
-     *
-     * @param sHeaderName a <code>String</code> value
-     * @return a <code>String</code> value
-     */
-    public String getHeaderValue(String sHeaderName) {
-        return RequestContext.getCurrentContext().getRequest().getHeader(sHeaderName);
-    }
+	/**
+	 * returns a form value from a given sHeaderName
+	 *
+	 * @param sHeaderName a <code>String</code> value
+	 * @return a <code>String</code> value
+	 */
+	public String getFormValue(String sHeaderName) {
+		return RequestContext.getCurrentContext().getRequest().getParameter(sHeaderName);
+	}
 
-    /**
-     * returns a form value from a given sHeaderName
-     *
-     * @param sHeaderName a <code>String</code> value
-     * @return a <code>String</code> value
-     */
-    public String getFormValue(String sHeaderName) {
-        return RequestContext.getCurrentContext().getRequest().getParameter(sHeaderName);
-    }
-
-    /**
-     * returns headers as a Map with String keys and Lists of Strings as values
-     */
-    public Map<String, List<String>> getRequestHeaderMap() {
-        HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
+	/**
+	 * returns headers as a Map with String keys and Lists of Strings as values
+	 */
+	public Map<String, List<String>> getRequestHeaderMap() {
+		HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
 		Map<String, List<String>> headers = new HashMap<>();
-        Enumeration<String> headerNames = request.getHeaderNames();
-        if (headerNames != null) {
-            while (headerNames.hasMoreElements()) {
-                String name = headerNames.nextElement();
-                String value = request.getHeader(name);
+		Enumeration<String> headerNames = request.getHeaderNames();
+		if (headerNames != null) {
+			while (headerNames.hasMoreElements()) {
+				String name = headerNames.nextElement();
+				String value = request.getHeader(name);
 
-                if (name != null && !name.isEmpty() && value != null) {
+				if (name != null && !name.isEmpty() && value != null) {
 					List<String> valueList = new ArrayList<>();
-                    if (headers.containsKey(name)) {
-                        headers.get(name).add(value);
-                    }
-                    valueList.add(value);
-                    headers.put(name, valueList);
-                }
-            }
-        }
-        return Collections.unmodifiableMap(headers);
+					if (headers.containsKey(name)) {
+						headers.get(name).add(value);
+					}
+					valueList.add(value);
+					headers.put(name, valueList);
+				}
+			}
+		}
+		return Collections.unmodifiableMap(headers);
 
-    }
+	}
 
-    /**
-     * returns query params as a Map with String keys and Lists of Strings as values
-     */
-    public Map<String, List<String>> getQueryParams() {
+	/**
+	 * returns query params as a Map with String keys and Lists of Strings as values
+	 */
+	public Map<String, List<String>> getQueryParams() {
 
-        Map<String, List<String>> qp = RequestContext.getCurrentContext().getRequestQueryParams();
-        if (qp != null) return qp;
+		Map<String, List<String>> qp = RequestContext.getCurrentContext().getRequestQueryParams();
+		if (qp != null) {
+			return qp;
+		}
 
-        HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
+		HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
 
 		qp = new LinkedHashMap<>();
 
-        if (request.getQueryString() == null) return null;
-        StringTokenizer st = new StringTokenizer(request.getQueryString(), "&");
-        int i;
+		if (request.getQueryString() == null) {
+			return null;
+		}
+		StringTokenizer st = new StringTokenizer(request.getQueryString(), "&");
+		int i;
 
-        while (st.hasMoreTokens()) {
-            String s = st.nextToken();
-            i = s.indexOf("=");
-            if (i > 0 && s.length() >= i + 1) {
-                String name = s.substring(0, i);
-                String value = s.substring(i + 1);
+		while (st.hasMoreTokens()) {
+			String s = st.nextToken();
+			i = s.indexOf("=");
+			if (i > 0 && s.length() >= i + 1) {
+				String name = s.substring(0, i);
+				String value = s.substring(i + 1);
 
-                try {
-                    name = URLDecoder.decode(name, "UTF-8");
-                } catch (Exception e) {
-                }
-                try {
-                    value = URLDecoder.decode(value, "UTF-8");
-                } catch (Exception e) {
-                }
+				try {
+					name = URLDecoder.decode(name, "UTF-8");
+					value = URLDecoder.decode(value, "UTF-8");
+				} catch (Exception e) {
+				}
 
-                List<String> valueList = qp.get(name);
-                if (valueList == null) {
+				List<String> valueList = qp.get(name);
+				if (valueList == null) {
 					valueList = new LinkedList<>();
-                    qp.put(name, valueList);
-                }
+					qp.put(name, valueList);
+				}
 
-                valueList.add(value);
-            } else if (i == -1) {
-                String name = s;
-                String value = "";
-                try {
-                    name = URLDecoder.decode(name, "UTF-8");
-                } catch (Exception e) {
-                }
+				valueList.add(value);
+			} else if (i == -1) {
+				String name = s;
+				String value = "";
+				try {
+					name = URLDecoder.decode(name, "UTF-8");
+				} catch (Exception e) {
+				}
 
-                List<String> valueList = qp.get(name);
-                if (valueList == null) {
+				List<String> valueList = qp.get(name);
+				if (valueList == null) {
 					valueList = new LinkedList<>();
-                    qp.put(name, valueList);
-                }
+					qp.put(name, valueList);
+				}
 
-                valueList.add(value);
-            }
-        }
+				valueList.add(value);
+			}
+		}
 
-        RequestContext.getCurrentContext().setRequestQueryParams(qp);
-        return qp;
-    }
+		RequestContext.getCurrentContext().setRequestQueryParams(qp);
+		return qp;
+	}
 
-    /**
-     * Checks headers, query string, and form body for a given parameter
-     */
-    public String getValueFromRequestElements(String sName) {
-        String sValue = null;
-        if (getQueryParams() != null) {
-            final List<String> v = getQueryParams().get(sName);
-            if (v != null && !v.isEmpty()) sValue = v.iterator().next();
-        }
-        if (sValue != null) return sValue;
-        sValue = getHeaderValue(sName);
-        if (sValue != null) return sValue;
-        sValue = getFormValue(sName);
-        if (sValue != null) return sValue;
-        return null;
-    }
+	/**
+	 * Checks headers, query string, and form body for a given parameter
+	 */
+	public String getValueFromRequestElements(String sName) {
+		String sValue = null;
+		if (getQueryParams() != null) {
+			final List<String> v = getQueryParams().get(sName);
+			if (v != null && !v.isEmpty()) sValue = v.iterator().next();
+		}
+		if (sValue != null) return sValue;
+		sValue = getHeaderValue(sName);
+		if (sValue != null) return sValue;
+		sValue = getFormValue(sName);
+		if (sValue != null) return sValue;
+		return null;
+	}
 
-    /**
-     * return true if the client requested gzip content
-     *
-     * @param contentEncoding a <code>String</code> value
-     * @return true if the content-encoding param containg gzip
-     */
-    public boolean isGzipped(String contentEncoding) {
-        return contentEncoding.contains("gzip");
-    }
+	/**
+	 * return true if the client requested gzip content
+	 *
+	 * @param contentEncoding a <code>String</code> value
+	 * @return true if the content-encoding param containg gzip
+	 */
+	public boolean isGzipped(String contentEncoding) {
+		return contentEncoding.contains("gzip");
+	}
 
 }
